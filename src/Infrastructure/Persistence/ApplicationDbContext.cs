@@ -30,6 +30,7 @@ namespace TailorStore.Infrastructure.Persistence {
         public DbSet<Clothes> Clothes { get; set; }
         public DbSet<Fabric> Fabrics { get; set; }
         public DbSet<ClothesFabric> ClothesFabrics { get; set; }
+        public DbSet<Domain.Entities.Type> Types { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken()) {
             foreach (Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<AuditableEntity> entry in ChangeTracker.Entries<AuditableEntity>()) {

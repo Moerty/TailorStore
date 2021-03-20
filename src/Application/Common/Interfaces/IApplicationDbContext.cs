@@ -11,6 +11,8 @@ namespace TailorStore.Application.Common.Interfaces {
         DbSet<Fabric> Fabrics { get; set; }
         DbSet<ClothesFabric> ClothesFabrics { get; set; }
 
+        DbSet<Domain.Entities.Type> Types { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

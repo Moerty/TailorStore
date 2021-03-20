@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: src/Api/Dockerfile
+    networks:
+       - nginx-proxy
+    restart: always
+    depends_on:
+      - tailorstore_db
+
+  tailorstore_db:
+    image: mysql:5.7
+    container_name: tailorstore_db
+    hostname: tailorstore_db
+    environment:
+       MYSQL_RANDOM_ROOT_PASSWORD: 1
+       MYSQL_DATABASE: tailorstore
+       MYSQL_USER: tailorstore
+       MYSQL_PASSWORD: tailorstore
+    volumes:
+       - tailorstore_dbdata:/var/lib/mysql
+    networks:
+       - nginx-proxy
+    restart: always
+    expose:
+       - "3306"
+
+networks:
+    nginx-proxy:
+      external: true
+
+volumes:
+    tailorstore_dbdata:
