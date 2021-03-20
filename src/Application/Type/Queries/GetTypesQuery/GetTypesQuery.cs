@@ -11,22 +11,19 @@ using System.Threading.Tasks;
 using TailorStore.Application.Common.Interfaces;
 
 namespace TailorStore.Application.Type.Queries.GetTypesQuery {
-    public class GetTypesQuery : IRequest<IList<GetTypesQueryDto>> { }
+    public class GetTypesQuery : IRequest<IList<KeyValuePair<Guid, string>>> { }
 
-    public class GetTypesQueryHandler : IRequestHandler<GetTypesQuery, IList<GetTypesQueryDto>> {
+    public class GetTypesQueryHandler : IRequestHandler<GetTypesQuery, IList<KeyValuePair<Guid, string>>> {
         private readonly IApplicationDbContext _context;
-        private readonly IMapper _mapper;
 
         public GetTypesQueryHandler(
-            IApplicationDbContext context,
-            IMapper mapper) {
+            IApplicationDbContext context) {
             _context = context;
-            _mapper = mapper;
         }
 
-        public async Task<IList<GetTypesQueryDto>> Handle(GetTypesQuery request, CancellationToken cancellationToken) {
+        public async Task<IList<KeyValuePair<Guid, string>>> Handle(GetTypesQuery request, CancellationToken cancellationToken) {
             return await _context.Types
-                .ProjectTo<GetTypesQueryDto>(_mapper.ConfigurationProvider)
+                .Select(s => new KeyValuePair<Guid, string>(s.Id, s.Name))
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
         }

@@ -38,7 +38,7 @@ namespace TailorStore.Infrastructure
             //services.AddIdentityServer()
             //    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
-            //services.AddTransient<IDateTime, DateTimeService>();
+            services.AddTransient<IDateTime, DateTimeService>();
             //services.AddTransient<IIdentityService, IdentityService>();
             //services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
 
