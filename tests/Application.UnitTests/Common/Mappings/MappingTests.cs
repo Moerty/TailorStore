@@ -29,15 +29,15 @@ namespace TailorStore.Application.UnitTests.Common.Mappings
         }
 
         [Test]
-        public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination) {
+        public void ShouldSupportMappingFromSourceToDestination(System.Type source, System.Type destination) {
             var instance = GetInstanceOf(source);
 
             _mapper.Map(instance, source, destination);
         }
 
-        private object GetInstanceOf(Type type)
+        private object GetInstanceOf(System.Type type)
         {
-            if (type.GetConstructor(Type.EmptyTypes) != null)
+            if (type.GetConstructor(System.Type.EmptyTypes) != null)
                 return Activator.CreateInstance(type);
 
             // Type without parameterless constructor

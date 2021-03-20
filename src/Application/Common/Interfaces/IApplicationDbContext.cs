@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace TailorStore.Application.Common.Interfaces {
     public interface IApplicationDbContext {
+        DbSet<ApplicationUser> ApplicationUsers { get; set; }
         DbSet<Clothes> Clothes { get; set; }
 
         DbSet<Fabric> Fabrics { get; set; }

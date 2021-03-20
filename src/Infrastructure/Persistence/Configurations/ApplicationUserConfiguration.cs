@@ -9,14 +9,12 @@ using TailorStore.Domain.Entities;
 
 namespace TailorStore.Infrastructure.Persistence.Configurations
 {
-    public class ClothesConfiguration : IEntityTypeConfiguration<Clothes> {
-        public void Configure(EntityTypeBuilder<Clothes> builder) {
+    public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser> {
+        public void Configure(EntityTypeBuilder<ApplicationUser> builder) {
             builder.HasKey(k => k.Id);
 
-            builder.HasIndex(i => i.Name);
-
-            builder.HasOne(u => u.ApplicationUser)
-                .WithMany(c => c.Clothes)
+            builder.HasMany(c => c.Clothes)
+                .WithOne(x => x.ApplicationUser)
                 .HasForeignKey(k => k.ApplicationUserId);
         }
     }

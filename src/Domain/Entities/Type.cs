@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using TailorStore.Domain.Common;
 
 namespace TailorStore.Domain.Entities {
-    public class ApplicationUser : AuditableEntity {
+    public class Type : AuditableEntity {
         public string Name { get; set; }
 
-        public IList<Clothes> Clothes { get; set; }
+        public IList<Option> Options { get; set; }
     }
 }

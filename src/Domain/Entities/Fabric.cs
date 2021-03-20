@@ -9,5 +9,7 @@ namespace TailorStore.Domain.Entities {
     public class Fabric : AuditableEntity {
         public string Name { get; set; }
         public string Picture { get; set; }
+
+        public IList<ClothesFabric> ClothesFabrics { get; set; }
     }
 }
