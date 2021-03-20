@@ -3,13 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TailorStore.Application.Common.Interfaces
-{
-    public interface IApplicationDbContext
-    {
-        DbSet<TodoList> TodoLists { get; set; }
+namespace TailorStore.Application.Common.Interfaces {
+    public interface IApplicationDbContext {
+        DbSet<Clothes> Clothes { get; set; }
 
-        DbSet<TodoItem> TodoItems { get; set; }
+        DbSet<Fabric> Fabrics { get; set; }
+        DbSet<ClothesFabric> ClothesFabrics { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

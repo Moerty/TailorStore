@@ -1,6 +1,4 @@
 ﻿using TailorStore.Application.Common.Interfaces;
-using TailorStore.Infrastructure.Files;
-using TailorStore.Infrastructure.Identity;
 using TailorStore.Infrastructure.Persistence;
 using TailorStore.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -32,25 +30,17 @@ namespace TailorStore.Infrastructure
 
             services.AddScoped<IDomainEventService, DomainEventService>();
 
-            services
-                .AddDefaultIdentity<ApplicationUser>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services
+            //    .AddDefaultIdentity<ApplicationUser>()
+            //    .AddRoles<IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+            //services.AddIdentityServer()
+            //    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
-            services.AddTransient<IDateTime, DateTimeService>();
-            services.AddTransient<IIdentityService, IdentityService>();
-            services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
-
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("CanPurge", policy => policy.RequireRole("Administrator"));
-            });
+            //services.AddTransient<IDateTime, DateTimeService>();
+            //services.AddTransient<IIdentityService, IdentityService>();
+            //services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
 
             return services;
         }

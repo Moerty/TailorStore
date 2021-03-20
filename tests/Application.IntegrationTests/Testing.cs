@@ -1,7 +1,5 @@
 ﻿using TailorStore.Application.Common.Interfaces;
-using TailorStore.Infrastructure.Identity;
 using TailorStore.Infrastructure.Persistence;
-using TailorStore.WebUI;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -15,6 +13,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Api;
+using TailorStore.Domain.Entities;
 
 [SetUpFixture]
 public class Testing
@@ -98,35 +98,16 @@ public class Testing
     public static async Task<string> RunAsUserAsync(string userName, string password, string[] roles)
     {
         using var scope = _scopeFactory.CreateScope();
+        using var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-        var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+        var user = new ApplicationUser {
+            Name = "test"
+        };
 
-        var user = new ApplicationUser { UserName = userName, Email = userName };
+        context.ApplicationUsers.Add(user);
+        context.SaveChanges();
 
-        var result = await userManager.CreateAsync(user, password);
-
-        if (roles.Any())
-        {
-            var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
-
-            foreach (var role in roles)
-            {
-                await roleManager.CreateAsync(new IdentityRole(role));
-            }
-
-            await userManager.AddToRolesAsync(user, roles);
-        }
-
-        if (result.Succeeded)
-        {
-            _currentUserId = user.Id;
-
-            return _currentUserId;
-        }
-
-        var errors = string.Join(Environment.NewLine, result.ToApplicationResult().Errors);
-
-        throw new Exception($"Unable to create {userName}.{Environment.NewLine}{errors}");
+        return user.Id.ToString();
     }
 
     public static async Task ResetState()

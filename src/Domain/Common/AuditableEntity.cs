@@ -4,6 +4,7 @@ namespace TailorStore.Domain.Common
 {
     public abstract class AuditableEntity
     {
+        public Guid Id { get; set; }
         public DateTime Created { get; set; }
 
         public string CreatedBy { get; set; }

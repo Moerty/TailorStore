@@ -1,7 +1,6 @@
 ﻿using TailorStore.Application.Common.Interfaces;
 using TailorStore.Domain.Common;
 using TailorStore.Domain.Entities;
-using TailorStore.Infrastructure.Identity;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -11,36 +10,30 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TailorStore.Infrastructure.Persistence
-{
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
-    {
+namespace TailorStore.Infrastructure.Persistence {
+    public class ApplicationDbContext : DbContext, IApplicationDbContext {
         private readonly ICurrentUserService _currentUserService;
         private readonly IDateTime _dateTime;
         private readonly IDomainEventService _domainEventService;
 
         public ApplicationDbContext(
             DbContextOptions options,
-            IOptions<OperationalStoreOptions> operationalStoreOptions,
             ICurrentUserService currentUserService,
             IDomainEventService domainEventService,
-            IDateTime dateTime) : base(options, operationalStoreOptions)
-        {
+            IDateTime dateTime) : base(options) {
             _currentUserService = currentUserService;
             _domainEventService = domainEventService;
             _dateTime = dateTime;
         }
 
-        public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Clothes> Clothes { get; set; }
+        public DbSet<Fabric> Fabrics { get; set; }
+        public DbSet<ClothesFabric> ClothesFabrics { get; set; }
 
-        public DbSet<TodoList> TodoLists { get; set; }
-
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
-        {
-            foreach (Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<AuditableEntity> entry in ChangeTracker.Entries<AuditableEntity>())
-            {
-                switch (entry.State)
-                {
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken()) {
+            foreach (Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<AuditableEntity> entry in ChangeTracker.Entries<AuditableEntity>()) {
+                switch (entry.State) {
                     case EntityState.Added:
                         entry.Entity.CreatedBy = _currentUserService.UserId;
                         entry.Entity.Created = _dateTime.Now;
@@ -60,17 +53,14 @@ namespace TailorStore.Infrastructure.Persistence
             return result;
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
+        protected override void OnModelCreating(ModelBuilder builder) {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(builder);
         }
 
-        private async Task DispatchEvents()
-        {
-            while (true)
-            {
+        private async Task DispatchEvents() {
+            while (true) {
                 var domainEventEntity = ChangeTracker.Entries<IHasDomainEvent>()
                     .Select(x => x.Entity.DomainEvents)
                     .SelectMany(x => x)
