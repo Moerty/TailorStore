@@ -10,6 +10,8 @@ namespace TailorStore.Domain.Entities {
         public Guid ClothesId { get; set; }
         public Guid OptionId { get; set; }
 
+        public string SKU { get; set; }
+
         public Option Option { get; set; }
         public Clothes Clothes { get; set; }
     }

@@ -12,15 +12,9 @@ namespace Api.Controllers
     public class ClothesFabricController : ApiControllerBase {
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery] string clothesId, [FromQuery] string fabricId) {
-            Guid convertedClothesId = Guid.Empty;
-            Guid convertedFabricId = Guid.Empty;
-
-            Guid.TryParse(clothesId, out convertedClothesId);
-            Guid.TryParse(fabricId, out convertedFabricId);
-
             var request = new GetClothesFabricsQuery {
-                ClothesId = convertedClothesId != Guid.Empty ? convertedClothesId : null,
-                FabricId = convertedFabricId != Guid.Empty ? convertedFabricId : null
+                ClothesId = Guid.TryParse(clothesId, out var convertedClothesId) ? convertedClothesId : null,
+                FabricId = Guid.TryParse(fabricId, out var convertedFabricId) ? convertedFabricId : null
             };
 
             return Ok(await Mediator
