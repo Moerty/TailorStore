@@ -33,6 +33,7 @@ namespace TailorStore.Infrastructure.Persistence {
         public DbSet<Domain.Entities.Type> Types { get; set; }
         public DbSet<Option> Options { get; set; }
         public DbSet<ClothesOption> ClothesOptions { get; set; }
+        public DbSet<Group> Groups { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken()) {
             foreach (Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<AuditableEntity> entry in ChangeTracker.Entries<AuditableEntity>()) {

@@ -11,6 +11,7 @@ namespace TailorStore.Application.Common.Interfaces {
         DbSet<Domain.Entities.Fabric> Fabrics { get; set; }
         DbSet<Domain.Entities.ClothesFabric> ClothesFabrics { get; set; }
         DbSet<TailorStore.Domain.Entities.ClothesOption> ClothesOptions { get; set; }
+        DbSet<TailorStore.Domain.Entities.Group> Groups { get; set; }
 
         DbSet<Domain.Entities.Type> Types { get; set; }
         DbSet<Domain.Entities.Option> Options { get; set; }
