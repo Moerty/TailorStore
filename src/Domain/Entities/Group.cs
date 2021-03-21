@@ -7,7 +7,7 @@ using TailorStore.Domain.Common;
 
 namespace TailorStore.Domain.Entities {
     public class Group : AuditableEntity {
-        public string Namen { get; set; }
+        public string Name { get; set; }
         
         public IList<Clothes> Clothes { get; set; }
     }
