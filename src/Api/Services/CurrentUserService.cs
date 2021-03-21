@@ -7,6 +7,6 @@ using TailorStore.Application.Common.Interfaces;
 
 namespace Api.Services {
     public class CurrentUserService : ICurrentUserService {
-        public string UserId => "test";
+        public string UserId => "00000000-0000-0000-0000-000000000000";
     }
 }
