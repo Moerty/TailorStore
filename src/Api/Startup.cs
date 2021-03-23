@@ -2,6 +2,7 @@ using Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +26,17 @@ namespace Api {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services) {
+            services.AddCors(options => {
+                options.AddPolicy("localhost",
+                    builder => builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowAnyHeader()
+                        .Build()
+                    );
+            });
+
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddApplication();
             services.AddInfrastructure(Configuration);
@@ -39,6 +51,18 @@ namespace Api {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
+
+            var fordwardedHeaderOptions = new ForwardedHeadersOptions {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            };
+            fordwardedHeaderOptions.KnownNetworks.Clear();
+            fordwardedHeaderOptions.KnownProxies.Clear();
+
+            app.UseForwardedHeaders(fordwardedHeaderOptions);
+
+            app.UseForwardedHeaders();
+
+            app.UseCors("localhost");
 
             app.UseRouting();
             app.UseSwagger();
