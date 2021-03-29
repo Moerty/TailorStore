@@ -23,7 +23,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] AddClothesFabricCommand command) {
+        public async Task<IActionResult> PostAsync([FromForm] AddClothesFabricCommand command) {
             var result = await Mediator.Send(command).ConfigureAwait(false);
 
             if (result) return Ok();
