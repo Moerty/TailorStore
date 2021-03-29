@@ -7,9 +7,15 @@ services:
       dockerfile: src/Api/Dockerfile
     networks:
        - nginx-proxy
+    expose:
+       - "80"
     restart: always
     depends_on:
       - tailorstore_db
+    environment:
+      - VIRTUAL_HOST=tailorstore.ccnb.me
+      - LETSENCRYPT_EMAIL=tailorstore@ccnb.me
+      - LETSENCRYPT_HOST=tailorstore.ccnb.me
 
   tailorstore_db:
     image: mysql:5.7
