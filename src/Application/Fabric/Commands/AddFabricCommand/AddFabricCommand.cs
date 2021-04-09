@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using TailorStore.Application.Common.Interfaces;
 namespace TailorStore.Application.Fabric.Commands.AddFabricCommand {
     public class AddFabricCommand : IRequest<bool> {
         public string Name { get; set; }
+        public IFormFile Picture { get; set; }
     }
 
     public class AddFabricCommandHandler : IRequestHandler<AddFabricCommand, bool> {
